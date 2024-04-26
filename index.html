@@ -1,5 +1,5 @@
-// Name: Anson Mah
-// Date: 26 April, 2024
+<!-- Name: Anson Mah -->
+<!-- Date: 26 April, 2024 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,11 +7,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GiganticHard Paint</title>
+  <title>Michaelsoft Beint</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+  <div id="toolbar_container">
+    <div id="toolbar">
+      <input type="color" id="color_picker">
+      <input type="number" min="1" id="thickness" value="1" placeholder="Thickness">
+      <button id="clear_canvas-button" onclick="clear_canvas()">Clear Canvas</button>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
   <script src="script.js"></script>
 </body>
 
