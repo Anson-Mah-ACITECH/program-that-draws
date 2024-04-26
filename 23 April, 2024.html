@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas</title>
+</head>
+
+<body>
+
+  <canvas id="canvas" height="500" width="500" style="border: 1px solid black;"></canvas>
+
+  <script>
+
+    const ctx = document.getElementById('canvas').getContext('2d');
+
+    // LINE
+    // ctx.moveTo(0,0);
+    // ctx.lineTo(x,y);
+    // ctx.stroke();
+
+    // Copypasta Start
+    ctx.font = "12px Helvetica"
+    ctx.fillText("Let's say, hypothetically, your mom was wearing a yellow raincoat.", 10, 25)
+    ctx.fillText("Now, also in this scenario, there is a man needing to get home.", 10, 45);
+    ctx.fillText("When he sees your mom, he will yell 'taxi, taxi!'.", 10, 65);
+    ctx.fillText("Now, why does he do this?", 10, 85);
+    ctx.fillText("The answer is actually quite simple.", 10, 105);
+    ctx.fillText("Your mom is so fat that she is the size of a taxi,", 10, 125);
+    ctx.fillText("and the yellow raincoat she is theoretically wearing is the same color as a taxi.", 10, 145);
+    ctx.fillText("Therefore, the man mistakes her for a taxi.", 10, 165);
+    ctx.fillText("So, what has this hypothetical scenario shown us?", 10, 185);
+    ctx.fillText("It has shown us that your mom is very, very, fat.", 10, 205);
+    ctx.fillText("Boom!", 10, 225);
+    ctx.fillText("Once again destroyed with facts and logic.", 10, 245);
+    ctx.fillText("-Ben Shapiro", 10, 275);
+    // Copypasta End
+
+    // Shocked Face Start
+    ctx.rect(300, 300, 100, 100);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(325, 325, 9, 0, 2*Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(370, 325, 9, 0, 2*Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(350, 370, 16, 0, 2*Math.PI);
+    ctx.stroke();
+    // Shocked Face End
+
+    // House Start
+    ctx.rect(105, 390, 90, 90); // Big Square
+    ctx.rect(121, 445, 17, 35); // Door
+    ctx.rect(121, 407, 18, 18); // Window NW
+    ctx.rect(160, 407, 18, 18); // Window NE
+    ctx.rect(160, 445, 18, 18); // Window SE
+    ctx.stroke();
+
+    ctx.beginPath(); // Roof
+    ctx.moveTo(105, 390);
+    ctx.lineTo(145, 335);
+    ctx.lineTo(195, 390);
+    ctx.stroke();
+    // House End
+
+  </script>
+
+</body>
+
+</html>
