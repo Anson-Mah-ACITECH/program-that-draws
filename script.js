@@ -1,56 +1,50 @@
 // Name: Anson Mah
 // Date: 26 April, 2024
 
-const canvas = document.getElementById('canvas')
+const canvas = document.getElementById('canvas');
 const ctx = document.getElementById('canvas').getContext('2d');
-let now_painting = false;
+const colorPicker = document.getElementById('colorPicker');
+const brushSize = document.getElementById('brushSizeInput');
+const eraserSize = document.getElementById('eraserSizeInput');
 
-// LINE
-// ctx.moveTo(0,0);
-// ctx.lineTo(x,y);
-// ctx.stroke();
+let nowPainting = false;
 
-// TEXT
-// ctx.font = "12px Helvetica"
-// ctx.fillText("Let's say, hypothetically, your mom was wearing a yellow raincoat.", x, y)
-
-// RECTANGLE
-// ctx.rect(x, y, width, height);
-// ctx.stroke();
-
-// CIRCLE
-// Angles are measured in Radians
-// True = counterclockwise
-// False = clockwise
-// ctx.beginPath();
-// ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
-// ctx.stroke();
-
-canvas.addEventListener('mousedown', (e)=>{
-  console.log(e)
-  now_painting = true;
-  ctx.beginPath();
-  ctx.strokeStyle = color_picker.value;
-  // ctx.arc(e.offsetX, e.offsetY, 2, 0, 2*Math.PI);
-  ctx.lineTo(e.offsetX, e.offsetY)
-  ctx.moveTo(e.offsetX, e.offsetY)
-  ctx.stroke();
+canvas.addEventListener('mousedown', ()=>{
+  nowPainting = true;
+	ctx.beginPath();
+	ctx.lineWidth = brushSize.value;
+	ctx.strokeStyle = colorPicker.value;
+	ctx.lineCap = 'round';
 })
 
 canvas.addEventListener('mousemove', (e)=>{
-  if (now_painting===true) {
-    ctx.beginPath();
-    // ctx.arc(e.offsetX, e.offsetY, 2, 0, 2*Math.PI);
-    ctx.strokeStyle = color_picker.value;
-    ctx.lineWidth = thickness.value;
-    ctx.lineCap = 'round';
-    ctx.lineTo(e.offsetX, e.offsetY)
-    ctx.stroke();
-  }
+  if (nowPainting === true) {
+		switch (document.querySelector('input:checked').id) {
+
+			case "brush":
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+				break;
+
+			case "pencil":
+				ctx.lineWidth = 1;
+				ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+				break;
+
+			case "eraser":
+				ctx.lineWidth = eraserSize.value;
+				ctx.strokeStyle = 'white';
+				ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+				break;
+
+		}
+	}
 })
 
 canvas.addEventListener('mouseup', ()=>{
-  now_painting = false;
+  nowPainting = false;
 })
 
 function clear_canvas() {

@@ -5,24 +5,78 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Michaelsoft Beint</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div id="toolbar_container">
-    <div id="toolbar">
-      <input type="color" id="color_picker">
-      <input type="number" min="1" id="thickness" value="1" placeholder="Thickness">
-      <button id="clear_canvas-button" onclick="clear_canvas()">Clear Canvas</button>
-    </div>
-  </div>
+	<div id="toolsContainer">
 
-  <canvas id="canvas"></canvas>
-  <script src="script.js"></script>
+		<h2>Select Tool</h2>
+		<div class="toolbar-tools">
+			<input type="radio" id="brush" name="toolSelector" value="brush" checked>
+			<label for="brush">Brush</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="pencil" name="toolSelector" value="pencil">
+			<label for="pencil">Pencil</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="eraser" name="toolSelector" value="eraser">
+			<label for="eraser">Eraser</label>
+		</div>
+		<!-- <div class="toolbar-tools">
+			<input type="radio" id="paintBucket" name="toolSelector" value="paintBucket">
+			<label for="paintBucket">Paint Bucket</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="rectangle" name="toolSelector" value="rectangle">
+			<label for="rectangle">Rectangle</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="circle" name="toolSelector" value="circle">
+			<label for="circle">Circle</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="line" name="toolSelector" value="line">
+			<label for="line">Line</label>
+		</div>
+		<div class="toolbar-tools">
+			<input type="radio" id="text" name="toolSelector" value="text">
+			<label for="text">Text</label>
+		</div> -->
+
+		<br>
+
+		<div id="brushSizeContainer">
+      <label>Brush Size:</label>
+      <input type="number" min="1" id="brushSizeInput" value="3" placeholder="Brush Size">
+    </div>
+
+		<div id="eraserSizeContainer">
+      <label>Eraser Size:</label>
+      <input type="number" min="1" id="eraserSizeInput" value="3" placeholder="Eraser Size">
+    </div>
+
+		<div id="colorPickerContainer">
+			<label>Color: </label>
+			<input type="color" id="colorPicker">
+		</div>
+
+		<br>
+
+    <button id="clearCanvasButton" onclick="clear_canvas()" class="button-class">Clear Canvas</button>
+    <button id="saveImageButton" onclick="save_image()" class="button-class">Save Painting</button>
+
+	</div>
+
+	<canvas id="canvas"></canvas>
+
+	<script src="script.js"></script>
+
 </body>
 
 </html>

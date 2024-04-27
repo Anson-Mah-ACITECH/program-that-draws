@@ -2,24 +2,29 @@
 /* Date: 26 April, 2024 */
 
 body {
-  /* height: 100vh; */
-  display: flex;
-  margin: 0;
-  align-items: center;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #303030;
+	gap: 10px;
+	overflow: hidden;
 }
 
-#toolbar_container {
-  height: 100%;
-  padding: 0.5em;
-  
+#toolsContainer {
+	background-color: beige;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.5em;
+	padding: 1em;
+	font-size: 1.5em;
 }
 
-#toolbar {
-  display: grid;
-  align-items: center;
-  gap: 0.7em;
+#canvas {
+	background-color: white;
 }
 
-canvas {
-  border: 1px solid black;
+.button-class {
+	font-size: 0.8em;
 }
