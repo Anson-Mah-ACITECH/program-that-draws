@@ -24,9 +24,7 @@
 
 	#toolsContainer {
 		background-color: beige;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		display: grid;
 		gap: 0.5em;
 		padding: 1em;
 		font-size: 1.5em;
@@ -84,12 +82,12 @@
 
 		<div id="brushSizeContainer">
       <label>Brush Size:</label>
-      <input type="number" min="1" id="brushSizeInput" value="3" placeholder="Brush Size" class="brushSizes">
+      <input type="number" id="brushSizeInput" class="brushSizes" min="1" value="3" placeholder="Brush Size">
     </div>
 
 		<div id="eraserSizeContainer">
       <label>Eraser Size:</label>
-      <input type="number" min="1" id="eraserSizeInput" value="3" placeholder="Eraser Size" class="brushSizes">
+      <input type="number" id="eraserSizeInput" class="brushSizes" min="1" value="3" placeholder="Eraser Size">
     </div>
 
 		<div id="colorPickerContainer">

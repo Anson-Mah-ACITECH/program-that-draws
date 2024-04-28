@@ -116,5 +116,10 @@ document.body.addEventListener('keydown', (e)=> {
 		case "C":
 			colorPicker.click();
 		break;
+
+		case "s":
+		case "S":
+			save_image();
+		break;
 	}
 })
