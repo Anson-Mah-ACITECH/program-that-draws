@@ -8,8 +8,39 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Michaelsoft Beint</title>
-  <link rel="stylesheet" href="style.css">
 </head>
+
+<style>
+
+	body {
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #303030;
+		gap: 10px;
+		overflow: hidden;
+	}
+
+	#toolsContainer {
+		background-color: beige;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.5em;
+		padding: 1em;
+		font-size: 1.5em;
+	}
+
+	#canvas {
+		background-color: white;
+	}
+
+	.button-class {
+		font-size: 0.8em;
+	}
+
+</style>
 
 <body>
 
@@ -53,12 +84,12 @@
 
 		<div id="brushSizeContainer">
       <label>Brush Size:</label>
-      <input type="number" min="1" id="brushSizeInput" value="3" placeholder="Brush Size">
+      <input type="number" min="1" id="brushSizeInput" value="3" placeholder="Brush Size" class="brushSizes">
     </div>
 
 		<div id="eraserSizeContainer">
       <label>Eraser Size:</label>
-      <input type="number" min="1" id="eraserSizeInput" value="3" placeholder="Eraser Size">
+      <input type="number" min="1" id="eraserSizeInput" value="3" placeholder="Eraser Size" class="brushSizes">
     </div>
 
 		<div id="colorPickerContainer">
@@ -70,10 +101,11 @@
 
     <button id="clearCanvasButton" onclick="clear_canvas()" class="button-class">Clear Canvas</button>
     <button id="saveImageButton" onclick="save_image()" class="button-class">Save Painting</button>
+		<button id="helpButton" onclick="location.href='help.html'" class="button-class">Help (?)</button>
 
 	</div>
 
-	<canvas id="canvas"></canvas>
+	<canvas id="canvas" height="550" width="800"></canvas>
 
 	<script src="script.js"></script>
 
