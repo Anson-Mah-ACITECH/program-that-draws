@@ -12,9 +12,54 @@
 
 <style>
 
+	nav {
+		background-color: grey;
+		height: 100%;
+		width: 16em;
+		position: fixed;
+	}
+
+	a {
+		color: white;
+		margin: 0.55em;
+		padding: 0.1em;
+		display: block;
+		font-size: 1.3rem;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	a:active {
+		font-weight: bold;
+	}
+
 	body {
 		color: white;
 		background-color: #303030;
+		margin: 0;
+	}
+
+	main {
+		margin-left: 16em;
+		padding: 1ch;
+	}
+
+	#topButton {
+		font-size: 1.05rem;
+		margin: 0 1ch;
+		padding: 0;
+		float: right;
+	}
+
+	b {
+		margin-left: 0.45em;
+		margin-top: 0.75em;
+		display: block;
+		font-size: 1.8em;
+		text-decoration: none;
 	}
 
 </style>
@@ -22,15 +67,14 @@
 <body>
 
 	<nav>
-		<ul>
-			<li><a href="#overview">Overview & Features</a></li>
-			<li><a href="#brush">Brush</a></li>
-			<li><a href="#pencil">Pencil</a></li>
-			<li><a href="#eraser">Eraser</a></li>
-			<li><a href="#sizes">Brush Size & Eraser Size</a></li>
-			<li><a href="#keyboard">Keyboard Functionality</a></li>
-			<li><a href="index.html">Back to Beint</a></li>
-		</ul>
+		<b>Michaelsoft Beint</b>
+		<a href="#overview" style="margin-top: 1.3em;">Overview & Features</a>
+		<a href="#brush">Brush</a>
+		<a href="#pencil">Pencil</a>
+		<a href="#eraser">Eraser</a>
+		<a href="#sizes">Brush Size & Eraser Size</a>
+		<a href="#keyboard">Keyboard Functionality</a>
+		<a href="index.html" style="margin-top: 3ch;">Back to Beint</a>
 	</nav>
 
 	<main>
@@ -104,9 +148,17 @@
 
 		<hr>
 
-		<p>:3 | Michaelsoft Beint</p>
+		<p>:3 | Michaelsoft Beint<a href="#top" id="topButton">Go to Top</a></p>
 
 	</main>
+
+	<script>
+
+		const nav_a = document.querySelectorAll('nav>a');
+
+		// nav_a[5].style.color = 'red';
+
+	</script>
 	
 </body>
 
