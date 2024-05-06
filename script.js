@@ -14,7 +14,7 @@ let nowPainting = false;
 clear_canvas()
 
 // Makes user able to draw on the canvas. 
-canvas.addEventListener('mousedown', ()=>{
+canvas.addEventListener('mousedown', (e)=>{
   nowPainting = true;
 	ctx.beginPath();
 	ctx.lineWidth = brushSize.value;
@@ -46,11 +46,6 @@ canvas.addEventListener('mousemove', (e)=>{
 			break;
 		}
 	}
-})
-
-// Makes user unable to paint if the mouse strays away from the canvas. 
-canvas.addEventListener('mouseout', ()=> {
-	nowPainting = false;
 })
 
 // Stops drawing on the canvas when user releases their mouse. 
@@ -88,8 +83,7 @@ document.body.addEventListener('keydown', (e)=> {
 		break;
 
 		case "]":
-		case "+":
-			brushSize.value++;
+		case "+":			brushSize.value++;
 			eraserSize.value++;
 		break;
 
@@ -120,6 +114,26 @@ document.body.addEventListener('keydown', (e)=> {
 		case "s":
 		case "S":
 			save_image();
+		break;
+
+		case "r":
+		case "R":
+			document.getElementById('rectangle').click();
+		break;
+
+		case "c":
+		case "C":
+			document.getElementById('circle').click();
+		break;
+
+		case "f":
+		case "F":
+			document.getElementById('paintBucket').click();
+		break;
+
+		case "l":
+		case "L":
+			document.getElementById('line').click();
 		break;
 	}
 })
