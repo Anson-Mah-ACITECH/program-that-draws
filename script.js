@@ -59,8 +59,23 @@ canvas.addEventListener('mousemove', (e)=>{
         ctx.stroke();
 			break;
 
+			case "paintBucket":
+
+			break;
+
 			case "rectangle":
 				ctx.strokeRect(e.offsetX, e.offsetY, firstPointX-e.offsetX, firstPointY-e.offsetY);
+			break;
+
+			case "circle":
+				ctx.arc(firstPointX, firstPointY, e.offsetX-firstPointX, 0, 2*Math.PI);
+				ctx.stroke();
+			break;
+
+			case "line":
+				ctx.moveTo(firstPointX, firstPointY);
+				ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
 			break;
 		}
 	}
@@ -69,6 +84,8 @@ canvas.addEventListener('mousemove', (e)=>{
 // Stops drawing on the canvas when user releases their mouse. 
 canvas.addEventListener('mouseup', ()=>{
   nowPainting = false;
+	firstPointX = undefined;
+	firstPointY = undefined;
 })
 
 // Clears the canvas. 
@@ -95,7 +112,6 @@ function redo() {
 
 // Adds keyboard functionality to the drawing app.
 document.body.addEventListener('keydown', (e)=> {
-	console.log(e)
 	switch (e.key) {
 
 		case "b":
