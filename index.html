@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Michaelsoft Beint</title>
+	<link rel="shortcut icon" href="logo.png" type="image/x-icon">
 </head>
 
 <style>
@@ -32,10 +33,42 @@
 
 	#canvas {
 		background-color: white;
+		margin: 1em 0;
 	}
 
 	.button-class {
 		font-size: 0.8em;
+	}
+
+	#guide {
+		padding: 10px;
+		background-color: aliceblue;
+		width: 780px;
+	}
+
+	.history-button {
+		width: 48.5%;
+	}
+
+	#undoButton {
+		float: left;
+	}
+
+	#redoButton {
+		float: right;
+	}
+
+	#notToolbar {
+		width: min-content;
+	}
+
+	#logoContainer {
+		width: 800px;
+		background-color: rgb(223, 223, 223);
+	}
+
+	#logoContainer > img {
+		height: 10em
 	}
 
 </style>
@@ -62,20 +95,16 @@
 			<label for="paintBucket">Paint Bucket</label>
 		</div>
 		<div class="toolbar-tools">
-			<input type="radio" id="rectangle" name="toolSelector" value="rectangle" onclick="draw_shape()">
+			<input type="radio" id="rectangle" name="toolSelector" value="rectangle">
 			<label for="rectangle">Rectangle</label>
 		</div>
 		<div class="toolbar-tools">
-			<input type="radio" id="circle" name="toolSelector" value="circle" onclick="draw_shape()">
+			<input type="radio" id="circle" name="toolSelector" value="circle">
 			<label for="circle">Circle</label>
 		</div>
 		<div class="toolbar-tools">
-			<input type="radio" id="line" name="toolSelector" value="line" onclick="draw_shape()">
+			<input type="radio" id="line" name="toolSelector" value="line">
 			<label for="line">Line</label>
-		</div>
-		<div class="toolbar-tools">
-			<input type="radio" id="text" name="toolSelector" value="text">
-			<label for="text">Text</label>
 		</div>
 
 		<br>
@@ -97,13 +126,21 @@
 
 		<br>
 
-    <button id="clearCanvasButton" onclick="clear_canvas()" class="button-class">Clear Canvas</button>
-    <button id="saveImageButton" onclick="save_image()" class="button-class">Save Painting</button>
-		<button id="helpButton" onclick="location.href='help.html'" class="button-class">Help (?)</button>
+    <button id="clearCanvasButton" class="button-class" onclick="clear_canvas()">Clear Canvas</button>
+    <button id="saveImageButton" class="button-class" onclick="save_image()">Save Painting</button>
+		<button id="helpButton" class="button-class" onclick="location.href='help.html'">Help (?)</button>
+		<span id="undoButtons">
+			<button id="undoButton" class="button-class history-button" onclick="undo()">Undo</button>
+			<button id="redoButton" class="button-class history-button" onclick="redo()">Redo</button>
+		</span>
 
 	</div>
 
-	<canvas id="canvas" height="550" width="800"></canvas>
+	<div id="notToolbar">
+		<div id="guide">Hi</div>
+		<canvas id="canvas" height="550" width="800"></canvas>
+		<div id="logoContainer"><img src="logo_full.png" id="logo_full"></div>
+	</div>
 
 	<script src="script.js"></script>
 

@@ -7,7 +7,19 @@ const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSizeInput');
 const eraserSize = document.getElementById('eraserSizeInput');
 
+// Helps with drawing
 let nowPainting = false;
+
+// Will be used for drawing shapes
+let firstPointX = undefined;
+let firstPointY = undefined;
+let secondPointX = undefined;
+let secondPointY = undefined;
+
+// Canvas History
+// Used for Undo & Redo functionality
+let thingsThatCanBeUndone = []; 
+let thingsThatCanBeRedone = []; 
 
 // Makes the background white.
 // Prevents background from being transparent on user download.
@@ -20,6 +32,8 @@ canvas.addEventListener('mousedown', (e)=>{
 	ctx.lineWidth = brushSize.value;
 	ctx.strokeStyle = colorPicker.value;
 	ctx.lineCap = 'round';
+	firstPointX = e.offsetX;
+	firstPointY = e.offsetY;
 })
 
 // Makes the user actually draw stuff on the canvas. 
@@ -44,6 +58,10 @@ canvas.addEventListener('mousemove', (e)=>{
 				ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
 			break;
+
+			case "rectangle":
+				ctx.strokeRect(e.offsetX, e.offsetY, firstPointX-e.offsetX, firstPointY-e.offsetY);
+			break;
 		}
 	}
 })
@@ -67,25 +85,18 @@ function save_image() {
 	a.click();
 }
 
+function undo() {
+
+}
+
+function redo() {
+
+}
+
 // Adds keyboard functionality to the drawing app.
 document.body.addEventListener('keydown', (e)=> {
 	console.log(e)
 	switch (e.key) {
-
-		case "[":
-		case "-":
-			if (brushSize.value>1) {
-				brushSize.value--;
-			}
-			if (eraserSize.value>1) {
-				eraserSize.value--;
-			}
-		break;
-
-		case "]":
-		case "+":			brushSize.value++;
-			eraserSize.value++;
-		break;
 
 		case "b":
 		case "B":
@@ -102,18 +113,9 @@ document.body.addEventListener('keydown', (e)=> {
 			document.getElementById('eraser').click();
 		break;
 
-		case "Delete":
-			clear_canvas()
-		break;
-
-		case "c":
-		case "C":
-			colorPicker.click();
-		break;
-
-		case "s":
-		case "S":
-			save_image();
+		case "f":
+		case "F":
+			document.getElementById('paintBucket').click();
 		break;
 
 		case "r":
@@ -126,14 +128,39 @@ document.body.addEventListener('keydown', (e)=> {
 			document.getElementById('circle').click();
 		break;
 
-		case "f":
-		case "F":
-			document.getElementById('paintBucket').click();
-		break;
-
 		case "l":
 		case "L":
 			document.getElementById('line').click();
+		break;
+
+		case "[":
+		case "-":
+			if (brushSize.value>1) {
+				brushSize.value--;
+			}
+			if (eraserSize.value>1) {
+				eraserSize.value--;
+			}
+		break;
+
+		case "]":
+		case "+":
+			brushSize.value++;
+			eraserSize.value++;
+		break;
+
+		case "c":
+		case "C":
+			colorPicker.click();
+		break;
+
+		case "Delete":
+			clear_canvas()
+		break;
+
+		case "s":
+		case "S":
+			save_image();
 		break;
 	}
 })

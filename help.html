@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Michaelsoft Beint - Help</title>
+	<link rel="shortcut icon" href="logo.png" type="image/x-icon">
 </head>
 
 <style>
@@ -54,12 +55,36 @@
 		float: right;
 	}
 
-	b {
-		margin-left: 0.45em;
-		margin-top: 0.75em;
-		display: block;
-		font-size: 1.8em;
+	#backToBeint {
+		margin-top: 3ch;
+		background-color: hsl(0, 0%, 40%);
+		width: fit-content;
+		padding: 1ch;
+	}
+
+	#backToBeint:hover {
 		text-decoration: none;
+		background-color: hsl(0, 0%, 30%);
+	}
+
+	#logo-small {
+		height: 3.5ch;
+		background-color: white;
+	}
+
+	#logo-header {
+		width: 11.25em;
+		margin: 1.5ch 0 -0.5ch 1ch;
+		background-color: hsl(0, 0%, 95%);
+	}
+
+	#logo-header:hover {
+		background-color: hsl(0, 0%, 100%)
+	}
+
+	#logo-header-a {
+		margin: 0;
+		padding: 0;
 	}
 
 </style>
@@ -67,14 +92,14 @@
 <body>
 
 	<nav>
-		<b>Michaelsoft Beint</b>
-		<a href="#overview" style="margin-top: 1.3em;">Overview & Features</a>
+		<a href="index.html" id="logo-header-a"><img src="logo_full.png" id="logo-header"></a>
+		<a href="#overview">Overview & Features</a>
 		<a href="#brush">Brush</a>
 		<a href="#pencil">Pencil</a>
 		<a href="#eraser">Eraser</a>
 		<a href="#sizes">Brush Size & Eraser Size</a>
 		<a href="#keyboard">Keyboard Functionality</a>
-		<a href="index.html" style="margin-top: 3ch;">Back to Beint</a>
+		<a href="index.html" id="backToBeint">Back to Beint</a>
 	</nav>
 
 	<main>
@@ -148,17 +173,9 @@
 
 		<hr>
 
-		<p>:3 | Michaelsoft Beint<a href="#top" id="topButton">Go to Top</a></p>
+		<p style="margin-bottom: 5px;"><img src="logo_full.png" id="logo-small"><a href="#top" id="topButton">Go to Top</a></p>
 
 	</main>
-
-	<script>
-
-		const nav_a = document.querySelectorAll('nav>a');
-
-		// nav_a[5].style.color = 'red';
-
-	</script>
 	
 </body>
 
