@@ -13,8 +13,6 @@ let nowPainting = false;
 // Will be used for drawing shapes
 let firstPointX = undefined;
 let firstPointY = undefined;
-let secondPointX = undefined;
-let secondPointY = undefined;
 
 // Canvas History
 // Used for Undo & Redo functionality
@@ -68,6 +66,7 @@ canvas.addEventListener('mousemove', (e)=>{
 			break;
 
 			case "circle":
+				ctx.beginPath();
 				ctx.arc(firstPointX, firstPointY, e.offsetX-firstPointX, 0, 2*Math.PI);
 				ctx.stroke();
 			break;
@@ -90,13 +89,13 @@ canvas.addEventListener('mouseup', ()=>{
 
 // Clears the canvas. 
 function clear_canvas() {
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = "white";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 // Saves whatever the user drew on the canvas as a png image.
 function save_image() {
-	const a = document.createElement('a');
+	let a = document.createElement('a');
 	a.download = "canvas_drawing.png";
 	a.href = canvas.toDataURL('png');
 	a.click();
