@@ -13,6 +13,7 @@ let nowPainting = false;
 // Will be used for drawing shapes
 let firstPointX = undefined;
 let firstPointY = undefined;
+let imageData = undefined;
 
 // Canvas History
 // Used for Undo & Redo functionality
@@ -27,16 +28,25 @@ clear_canvas()
 canvas.addEventListener('mousedown', (e)=>{
   nowPainting = true;
 	ctx.beginPath();
-	ctx.lineWidth = brushSize.value;
-	ctx.strokeStyle = colorPicker.value;
-	ctx.lineCap = 'round';
-	firstPointX = e.offsetX;
-	firstPointY = e.offsetY;
+	ctx.lineWidth = brushSize.value; // Sets the line width to current brush size.
+	ctx.strokeStyle = colorPicker.value; // Sets the tool color to the one currently selected.
+	ctx.lineCap = 'round'; // Makes the brush tips round instead of blocky.
+	firstPointX = e.offsetX; // Used as a starting point for drawing shapes.
+	firstPointY = e.offsetY; // Used as a starting point for drawing shapes.
+	imageData=ctx.getImageData(0, 0, canvas.width, canvas.height); 
+	
+	// If the paint bucket is selcted, then it will fill the clicked area with the selected color.
+	if (document.querySelector('input:checked').id == 'paintBucket') {
+			let coordinateData = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
+			let originalColor = `rgb(${coordinateData[0]}, ${coordinateData[1]}, ${coordinateData[2]})`
+			console.log(originalColor);
+			let newColor = colorPicker.value;
+	}
 })
 
 // Makes the user actually draw stuff on the canvas. 
 canvas.addEventListener('mousemove', (e)=>{
-  if (nowPainting === true) {
+	if (nowPainting === true) {
 		switch (document.querySelector('input:checked').id) {
 
 			case "brush":
@@ -57,21 +67,21 @@ canvas.addEventListener('mousemove', (e)=>{
         ctx.stroke();
 			break;
 
-			case "paintBucket":
-
-			break;
-
 			case "rectangle":
+				ctx.putImageData(imageData, 0, 0);
 				ctx.strokeRect(e.offsetX, e.offsetY, firstPointX-e.offsetX, firstPointY-e.offsetY);
 			break;
 
 			case "circle":
+				ctx.putImageData(imageData, 0, 0);
 				ctx.beginPath();
-				ctx.arc(firstPointX, firstPointY, e.offsetX-firstPointX, 0, 2*Math.PI);
+				ctx.arc(firstPointX, firstPointY, Math.abs(e.offsetX-firstPointX), 0, 2*Math.PI);
 				ctx.stroke();
 			break;
 
 			case "line":
+				ctx.putImageData(imageData, 0, 0);
+				ctx.beginPath();
 				ctx.moveTo(firstPointX, firstPointY);
 				ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
@@ -83,8 +93,6 @@ canvas.addEventListener('mousemove', (e)=>{
 // Stops drawing on the canvas when user releases their mouse. 
 canvas.addEventListener('mouseup', ()=>{
   nowPainting = false;
-	firstPointX = undefined;
-	firstPointY = undefined;
 })
 
 // Clears the canvas. 
@@ -96,7 +104,7 @@ function clear_canvas() {
 // Saves whatever the user drew on the canvas as a png image.
 function save_image() {
 	let a = document.createElement('a');
-	a.download = "canvas_drawing.png";
+	a.download = "MyCanvas.png";
 	a.href = canvas.toDataURL('png');
 	a.click();
 }
@@ -175,7 +183,9 @@ document.body.addEventListener('keydown', (e)=> {
 
 		case "s":
 		case "S":
-			save_image();
+			if (e.ctrlKey || e.metaKey) {
+				save_image();
+			}
 		break;
 	}
 })
