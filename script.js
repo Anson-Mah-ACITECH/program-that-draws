@@ -15,11 +15,6 @@ let firstPointX = undefined;
 let firstPointY = undefined;
 let imageData = undefined;
 
-// Canvas History
-// Used for Undo & Redo functionality
-let thingsThatCanBeUndone = []; 
-let thingsThatCanBeRedone = []; 
-
 // Makes the background white.
 // Prevents background from being transparent on user download.
 clear_canvas()
@@ -39,7 +34,6 @@ canvas.addEventListener('mousedown', (e)=>{
 	if (document.querySelector('input:checked').id == 'paintBucket') {
 			let coordinateData = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
 			let originalColor = `rgb(${coordinateData[0]}, ${coordinateData[1]}, ${coordinateData[2]})`
-			console.log(originalColor);
 			let newColor = colorPicker.value;
 	}
 })
@@ -50,21 +44,30 @@ canvas.addEventListener('mousemove', (e)=>{
 		switch (document.querySelector('input:checked').id) {
 
 			case "brush":
-        ctx.lineTo(e.offsetX, e.offsetY);
+				ctx.moveTo(e.offsetX, e.offsetY);
+				ctx.lineTo(firstPointX, firstPointY);
         ctx.stroke();
+				firstPointX = e.offsetX; 
+				firstPointY = e.offsetY;
 			break;
 
 			case "pencil":
 				ctx.lineWidth = 1;
-				ctx.lineTo(e.offsetX, e.offsetY);
+				ctx.moveTo(e.offsetX, e.offsetY);
+				ctx.lineTo(firstPointX, firstPointY);
         ctx.stroke();
+				firstPointX = e.offsetX; 
+				firstPointY = e.offsetY;
 			break;
 		
 			case "eraser":
 				ctx.lineWidth = eraserSize.value;
 				ctx.strokeStyle = 'white';
-				ctx.lineTo(e.offsetX, e.offsetY);
+				ctx.moveTo(e.offsetX, e.offsetY);
+				ctx.lineTo(firstPointX, firstPointY);
         ctx.stroke();
+				firstPointX = e.offsetX; 
+				firstPointY = e.offsetY;
 			break;
 
 			case "rectangle":
@@ -93,6 +96,7 @@ canvas.addEventListener('mousemove', (e)=>{
 // Stops drawing on the canvas when user releases their mouse. 
 canvas.addEventListener('mouseup', ()=>{
   nowPainting = false;
+	thingsThatCanBeUndone.push(canvas.toDataURL());
 })
 
 // Clears the canvas. 
@@ -109,12 +113,17 @@ function save_image() {
 	a.click();
 }
 
-function undo() {
+// Canvas History
+// Used for Undo & Redo functionality
+let thingsThatCanBeUndone = []; 
+let thingsThatCanBeRedone = []; 
 
+function undo() {
+	thingsThatCanBeRedone.push((thingsThatCanBeUndone.pop()));
 }
 
 function redo() {
-
+	thingsThatCanBeUndone.push((thingsThatCanBeRedone.pop()));
 }
 
 // Adds keyboard functionality to the drawing app.
@@ -185,6 +194,20 @@ document.body.addEventListener('keydown', (e)=> {
 		case "S":
 			if (e.ctrlKey || e.metaKey) {
 				save_image();
+			}
+		break;
+
+		case "z":
+		case "Z":
+			if (e.ctrlKey || e.metaKey) {
+				undo();
+			}
+		break;
+
+		case "y":
+		case "Y":
+			if (e.ctrlKey || e.metaKey) {
+				redo();
 			}
 		break;
 	}
