@@ -7,7 +7,7 @@ const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSizeInput');
 const eraserSize = document.getElementById('eraserSizeInput');
 
-// Helps with drawing
+// Dictates whether the mouse moving causes the canvas to change or not.
 let nowPainting = false;
 
 // Will be used for drawing shapes
@@ -15,13 +15,15 @@ let firstPointX = undefined;
 let firstPointY = undefined;
 let imageData = undefined;
 
-// Makes the background white.
-// Prevents background from being transparent on user download.
+// Canvas History; Used for Undo & Redo Functionality
+let undoQueue = []; 
+let redoQueue = []; 
+
+// Makes the background white; Prevents background from being transparent on user download.
 clear_canvas()
 
-// Makes user able to draw on the canvas. 
 canvas.addEventListener('mousedown', (e)=>{
-  nowPainting = true;
+  nowPainting = true; // Enables the user to draw on the canvas. 
 	ctx.beginPath();
 	ctx.lineWidth = brushSize.value; // Sets the line width to current brush size.
 	ctx.strokeStyle = colorPicker.value; // Sets the tool color to the one currently selected.
@@ -40,7 +42,7 @@ canvas.addEventListener('mousedown', (e)=>{
 
 // Makes the user actually draw stuff on the canvas. 
 canvas.addEventListener('mousemove', (e)=>{
-	if (nowPainting === true) {
+	if (nowPainting === true) { 
 		switch (document.querySelector('input:checked').id) {
 
 			case "brush":
@@ -78,7 +80,8 @@ canvas.addEventListener('mousemove', (e)=>{
 			case "circle":
 				ctx.putImageData(imageData, 0, 0);
 				ctx.beginPath();
-				ctx.arc(firstPointX, firstPointY, Math.abs(e.offsetX-firstPointX), 0, 2*Math.PI);
+				let DISTANCE_FORMULA = Math.sqrt(((e.offsetY-firstPointY)**2+(e.offsetX-firstPointX)**2));
+				ctx.arc(firstPointX, firstPointY, DISTANCE_FORMULA, 0, 2*Math.PI);
 				ctx.stroke();
 			break;
 
@@ -93,40 +96,43 @@ canvas.addEventListener('mousemove', (e)=>{
 	}
 })
 
-// Stops drawing on the canvas when user releases their mouse. 
 canvas.addEventListener('mouseup', ()=>{
-  nowPainting = false;
-	thingsThatCanBeUndone.push(canvas.toDataURL());
+  nowPainting = false; // Makes the user now unable to paint until they hold their mouse down again.
+	undoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Stores their most recent stroke. This enables the user to undo their strokes.
 })
 
-// Clears the canvas. 
 function clear_canvas() {
-  ctx.fillStyle = "white";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	undoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Enables the user to undo their clear.
+  ctx.fillStyle = "white"; // The default background color is white. 
+	ctx.fillRect(0, 0, canvas.width, canvas.height); // Fills the entire canvas with the default background color, essentially cleaning it. 
 }
 
-// Saves whatever the user drew on the canvas as a png image.
 function save_image() {
-	let a = document.createElement('a');
-	a.download = "MyCanvas.png";
-	a.href = canvas.toDataURL('png');
+	let a = document.createElement('a'); 
+	a.download = "MyCanvas"; // Sets the default name of the file when it is downloaded.
+	a.href = canvas.toDataURL(); // Gets the current state of the canvas so that it can be downloaded.
 	a.click();
 }
 
-// Canvas History
-// Used for Undo & Redo functionality
-let thingsThatCanBeUndone = []; 
-let thingsThatCanBeRedone = []; 
-
 function undo() {
-	thingsThatCanBeRedone.push((thingsThatCanBeUndone.pop()));
+	redoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Takes the current state of the canvas and adds it to the redo queue.
+	undoQueue.pop(); 
+	if (undoQueue.length>0) {
+		ctx.putImageData(undoQueue[undoQueue.length-1], 0, 0); 
+	} else {
+		clear_canvas();
+	}
 }
 
 function redo() {
-	thingsThatCanBeUndone.push((thingsThatCanBeRedone.pop()));
+	undoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Takes the current state of the canvas and adds it to the undo queue.
+	if (redoQueue.length>0) {
+		ctx.putImageData(redoQueue[redoQueue.length-1], 0, 0);
+	}
+	redoQueue.pop();
 }
 
-// Adds keyboard functionality to the drawing app.
+// Adds keyboard shortcuts to the drawing app.
 document.body.addEventListener('keydown', (e)=> {
 	switch (e.key) {
 
@@ -193,6 +199,7 @@ document.body.addEventListener('keydown', (e)=> {
 		case "s":
 		case "S":
 			if (e.ctrlKey || e.metaKey) {
+				e.preventDefault(); // CTRL+S on a normal HTML page would prompt the user to save the entire HTML page. We only want the user to be prompted with saving the canvas, so we must stop CTRL+S from doing its normal function. In other words, we must prevent the default action of CTRL+S. 
 				save_image();
 			}
 		break;
