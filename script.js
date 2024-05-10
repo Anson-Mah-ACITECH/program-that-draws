@@ -31,13 +31,6 @@ canvas.addEventListener('mousedown', (e)=>{
 	firstPointX = e.offsetX; // Used as a starting point for drawing shapes.
 	firstPointY = e.offsetY; // Used as a starting point for drawing shapes.
 	imageData=ctx.getImageData(0, 0, canvas.width, canvas.height); 
-	
-	// If the paint bucket is selcted, then it will fill the clicked area with the selected color.
-	if (document.querySelector('input:checked').id == 'paintBucket') {
-			let coordinateData = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
-			let originalColor = `rgb(${coordinateData[0]}, ${coordinateData[1]}, ${coordinateData[2]})`
-			let newColor = colorPicker.value;
-	}
 })
 
 // Makes the user actually draw stuff on the canvas. 
@@ -81,7 +74,16 @@ canvas.addEventListener('mousemove', (e)=>{
 				ctx.putImageData(imageData, 0, 0);
 				ctx.beginPath();
 				let DISTANCE_FORMULA = Math.sqrt(((e.offsetY-firstPointY)**2+(e.offsetX-firstPointX)**2));
+				// ctx.ellipse(x, y, radius, startAngle, endAngle)
 				ctx.arc(firstPointX, firstPointY, DISTANCE_FORMULA, 0, 2*Math.PI);
+				ctx.stroke();
+			break;
+
+			case "ellipse":
+				ctx.putImageData(imageData, 0, 0);
+				ctx.beginPath();
+				// ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle)
+				ctx.ellipse(firstPointX, firstPointY, Math.abs(e.offsetX-firstPointX), Math.abs(e.offsetY-firstPointY), 2*Math.PI, 0, 2*Math.PI);
 				ctx.stroke();
 			break;
 
@@ -99,6 +101,7 @@ canvas.addEventListener('mousemove', (e)=>{
 canvas.addEventListener('mouseup', ()=>{
   nowPainting = false; // Makes the user now unable to paint until they hold their mouse down again.
 	undoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Stores their most recent stroke. This enables the user to undo their strokes.
+	redoQueue = []; // Empties the redo queue.
 })
 
 function clear_canvas() {
@@ -128,7 +131,7 @@ function redo() {
 	undoQueue.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Takes the current state of the canvas and adds it to the undo queue.
 	if (redoQueue.length>0) {
 		ctx.putImageData(redoQueue[redoQueue.length-1], 0, 0);
-	}
+	} 
 	redoQueue.pop();
 }
 
@@ -149,11 +152,6 @@ document.body.addEventListener('keydown', (e)=> {
 		case "e":
 		case "E":
 			document.getElementById('eraser').click();
-		break;
-
-		case "f":
-		case "F":
-			document.getElementById('paintBucket').click();
 		break;
 
 		case "r":
@@ -201,6 +199,8 @@ document.body.addEventListener('keydown', (e)=> {
 			if (e.ctrlKey || e.metaKey) {
 				e.preventDefault(); // CTRL+S on a normal HTML page would prompt the user to save the entire HTML page. We only want the user to be prompted with saving the canvas, so we must stop CTRL+S from doing its normal function. In other words, we must prevent the default action of CTRL+S. 
 				save_image();
+			} else {
+				document.getElementById('ellipse').click();
 			}
 		break;
 
